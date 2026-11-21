@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#17372d">
+<title>Admin sign in · Him-Path</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{font-family:'DM Sans',sans-serif;color:#1b2920;background:#f4f5ef}*{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;grid-template-columns:1fr 1fr}.scene{position:relative;overflow:hidden;background:linear-gradient(180deg,#102b2355,#102b23aa),url('https://commons.wikimedia.org/wiki/Special:FilePath/Everest_Base_Camp_Trek_Nepal.jpg?width=1600') center/cover;display:flex;align-items:flex-end;padding:8vw;color:#fff}.scene h2{font:700 clamp(36px,5vw,66px) Manrope;margin:0 0 12px;line-height:1.05}.scene p{font-size:18px;max-width:470px;line-height:1.65;color:#edf1e6}.form-side{display:grid;place-items:center;padding:28px}.card{width:min(440px,100%);background:#fff;border:1px solid #e4e8df;border-radius:20px;padding:clamp(26px,5vw,48px);box-shadow:0 20px 60px #183a2010}.brand{display:flex;align-items:center;gap:12px;color:#17372d;text-decoration:none;font:800 26px Manrope;letter-spacing:-.7px}.brand svg{width:42px;height:32px;color:#799843}.brand small{display:block;font:600 10px 'DM Sans';letter-spacing:2px;color:#879187;margin-top:3px}.kicker{margin:38px 0 9px;color:#769247;font-weight:700;letter-spacing:2px;font-size:12px}.card h1{font:700 32px Manrope;letter-spacing:-1px;margin:0;color:#1e3d2f}.intro{color:#748075;line-height:1.6;margin:9px 0 25px}.field{display:grid;gap:7px;margin:16px 0;font-size:14px;font-weight:600;color:#425448}.field input{border:1px solid #dfe5db;border-radius:9px;padding:13px 14px;font:16px 'DM Sans';outline:none}.field input:focus{border-color:#6c8b54;box-shadow:0 0 0 3px #78975824}.submit{width:100%;border:0;border-radius:9px;background:#17372d;color:white;padding:14px;font:700 15px 'DM Sans';cursor:pointer;margin-top:8px}.submit:hover{background:#28523e}.message{min-height:23px;color:#a34633;font-size:14px;margin:12px 0 0}.back{display:block;margin-top:22px;color:#526c48;text-align:center;font-weight:600;text-decoration:none}.secure{border-top:1px solid #e9ece5;margin-top:24px;padding-top:16px;color:#859087;font-size:12px;line-height:1.5}@media(max-width:760px){body{grid-template-columns:1fr}.scene{display:none}.form-side{min-height:100vh;padding:18px}.card{padding:30px 24px}.kicker{margin-top:30px}}
+</style>
+</head>
+<body>
+<section class="scene"><div><h2>Good journeys<br>start with care.</h2><p>Manage Him-Path’s Nepal trekking catalog, guides, rentals, reservations and safety updates.</p></div></section>
+<main class="form-side"><div class="card">
+<a class="brand" href="/"><svg viewBox="0 0 48 36" aria-hidden="true"><path d="M3 32 15 8l10 18 6-12 14 18H3Z" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 32h42" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg><span>Him-Path<small>ADMIN STUDIO</small></span></a>
+<div class="kicker">RESTRICTED WORKSPACE</div><h1>Admin sign in</h1><p class="intro">Sign in with your administrator email and password to continue to the management portal.</p>
+<form id="admin-form"><label class="field">Admin email<input name="username" type="email" autocomplete="username" placeholder="missubohara2063@gmail.com" maxlength="50" required autofocus></label><label class="field">Password<input name="password" type="password" autocomplete="current-password" required></label><button class="submit" id="submit" type="submit">Continue to admin ↗</button><p class="message" id="message" role="alert"></p></form>
+<div class="secure">Access is checked by Spring Security. Admin updates are saved to the shared MySQL database and appear on the public Him-Path website.</div><a class="back" href="/">← Return to Him-Path</a><a class="back" href="user-login.html">User login ↗</a>
+</div></main>
+<script>
+const form=document.getElementById('admin-form'),message=document.getElementById('message'),button=document.getElementById('submit');
+async function hasAdmin(){const response=await fetch('/api/admin/dashboard',{headers:{Accept:'application/json'},cache:'no-store'});return response.ok}
+(async()=>{try{if(await hasAdmin())location.replace('/admin.html')}catch{}if(new URLSearchParams(location.search).get('error')==='role')message.textContent='This account does not have admin access. Sign in with an ADMIN account.';else if(new URLSearchParams(location.search).has('expired'))message.textContent='Your admin session ended. Please sign in again.'})();
+form.addEventListener('submit',async event=>{event.preventDefault();message.textContent='';button.disabled=true;button.textContent='Checking access…';const values=new FormData(form);try{const response=await fetch('/api/auth/login',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded','Accept':'application/json'},body:new URLSearchParams({username:values.get('username'),password:values.get('password')}),cache:'no-store'});if(!response.ok)throw new Error('Username or password is incorrect.');if(!await hasAdmin()){await fetch('/api/auth/logout',{method:'POST'});throw new Error('This account does not have the ADMIN role.');}location.replace('/admin.html')}catch(error){message.textContent=error.message||'Sign in failed. Please try again.';button.disabled=false;button.textContent='Continue to admin ↗'}});
+</script>
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#17372d"><title>User sign in · Him-Path</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="styles.css?v=20261005-expanded-nepal-routes-v1"><style>
+.auth-page{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;background:#f4f5ef}.auth-scene{display:flex;align-items:flex-end;padding:8vw;color:#fff;background:linear-gradient(180deg,#102b2340,#102b23bb),url('https://commons.wikimedia.org/wiki/Special:FilePath/Everest_Base_Camp_Trek_Nepal.jpg?width=1600') center/cover}.auth-scene h1{font:700 clamp(36px,5vw,66px) Manrope;line-height:1.05;margin:0 0 12px}.auth-scene p{font-size:18px;max-width:470px;line-height:1.65;color:#edf1e6}.auth-main{display:grid;place-items:center;padding:28px}.auth-card{width:min(460px,100%);padding:clamp(26px,5vw,48px);background:#fff;border:1px solid #e4e8df;border-radius:20px;box-shadow:0 20px 60px #183a2010}.auth-brand{display:flex;align-items:center;gap:12px;color:#17372d;font:800 26px Manrope}.auth-brand svg{width:42px;height:32px;color:#799843}.auth-brand small{display:block;font:600 10px 'DM Sans';letter-spacing:2px;color:#879187;margin-top:3px}.auth-kicker{margin:38px 0 9px;color:#769247;font-weight:700;letter-spacing:2px;font-size:12px}.auth-card h2{font:700 32px Manrope;letter-spacing:-1px;margin:0;color:#1e3d2f}.auth-intro{color:#748075;line-height:1.6;margin:9px 0 20px}.auth-tabs{display:flex;border-bottom:1px solid #e1e5db;margin:12px 0 18px}.auth-tabs button{border:0;background:none;padding:10px 14px;color:#778278;font-weight:600}.auth-tabs button.active{border-bottom:2px solid #77964b;color:#284836}.auth-field{display:grid;gap:7px;margin:14px 0;color:#425448;font-size:14px;font-weight:600}.auth-field input{border:1px solid #dfe5db;border-radius:9px;padding:13px 14px;font:16px 'DM Sans';outline:none}.auth-field input:focus{border-color:#6c8b54;box-shadow:0 0 0 3px #78975824}.auth-submit{width:100%;border:0;border-radius:9px;background:#17372d;color:white;padding:14px;font:700 15px 'DM Sans';cursor:pointer;margin-top:8px}.auth-submit:disabled{opacity:.65}.auth-message{min-height:22px;color:#a34633;font-size:14px;line-height:1.5;margin:12px 0 0}.auth-message.success{color:#426d36}.resend-link{display:block;margin:10px auto 0;border:0;background:none;color:#526c48;font-weight:600;text-decoration:underline;cursor:pointer}.local-verify-link{color:#385f32;font-weight:700;text-decoration:underline}.auth-links{display:flex;flex-wrap:wrap;justify-content:center;gap:10px 18px;margin-top:22px;color:#526c48;font-weight:600;font-size:14px}.auth-secure{border-top:1px solid #e9ece5;margin-top:22px;padding-top:15px;color:#859087;font-size:12px;line-height:1.55}@media(max-width:760px){.auth-page{grid-template-columns:1fr}.auth-scene{display:none}.auth-main{min-height:100vh;padding:18px}.auth-card{padding:30px 24px}.auth-kicker{margin-top:30px}}
+.auth-field[hidden],.resend-link[hidden],.auth-secure[hidden]{display:none!important}</style></head><body><div class="auth-page"><section class="auth-scene"><div><h1>Good journeys<br>start with care.</h1><p>Keep your Nepal trek plans, bookings and trail notes together in one place.</p></div></section><main class="auth-main"><div class="auth-card"><a class="auth-brand" href="/"><svg viewBox="0 0 48 36" aria-hidden="true"><path d="M3 32 15 8l10 18 6-12 14 18H3Z" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 32h42" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg><span>Him-Path<small>NEPAL TREK GUIDE</small></span></a><div class="auth-kicker">YOUR TRAIL ACCOUNT</div><h2 id="auth-title">Sign in</h2><p class="auth-intro" id="auth-intro">Sign in to manage your plans, bookings, rentals and saved treks.</p><div class="auth-tabs"><button type="button" class="active" data-mode="login">User login</button><button type="button" data-mode="register">Create account</button></div><form id="auth-form"><label class="auth-field">Email<input type="email" name="email" autocomplete="email" inputmode="email" maxlength="50" required placeholder="you@example.com"></label><label class="auth-field" id="password-label">Password<input type="password" name="password" autocomplete="current-password" required minlength="8" maxlength="72"></label><label class="auth-field" id="otp-label" hidden>6-digit verification code<input type="text" name="otp" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6}" maxlength="6" placeholder="123456"></label><p id="password-hint" class="auth-secure" hidden>Use at least 8 characters with uppercase and lowercase letters and a number.</p><button class="auth-submit" id="auth-submit" type="submit">Sign in</button><p class="auth-message" id="auth-message" role="status" aria-live="polite"></p><button class="resend-link" type="button" id="resend-verification" hidden>Resend verification email</button></form><div class="auth-links"><a href="/">← Home</a><a href="admin-login.html">Admin login</a></div><div class="auth-secure">New accounts activate after email verification and password setup. Your password is never requested before your email code is confirmed.</div></div></main></div>
+<script>
+const form=document.getElementById('auth-form');
+const message=document.getElementById('auth-message');
+const submit=document.getElementById('auth-submit');
+const title=document.getElementById('auth-title');
+const intro=document.getElementById('auth-intro');
+const resend=document.getElementById('resend-verification');
+const emailField=form.elements.email;
+const passwordField=form.elements.password;
+const otpField=form.elements.otp;
+const passwordLabel=document.getElementById('password-label');
+const otpLabel=document.getElementById('otp-label');
+const passwordHint=document.getElementById('password-hint');
+let mode='login';
+let verifiedCode='';
+function setMode(next){
+  mode=next;
+  const login=next==='login',emailStep=next==='email',verify=next==='verify',passwordStep=next==='password';
+  resend.hidden=!verify;
+  emailField.type=login?'text':'email';
+  emailField.autocomplete=login?'username':'email';
+  passwordLabel.hidden=!(login||passwordStep);
+  otpLabel.hidden=!verify;
+  passwordHint.hidden=!passwordStep;
+  emailField.readOnly=verify||passwordStep;
+  passwordField.required=login||passwordStep;
+  otpField.required=verify;
+  document.querySelectorAll('[data-mode]').forEach(button=>button.classList.toggle('active',login?button.dataset.mode==='login':button.dataset.mode==='register'));
+  title.textContent=login?'Sign in':verify?'Verify your email':passwordStep?'Set your password':'Create your account';
+  intro.textContent=login?'Sign in with your email and password.':emailStep?'Step 1 of 3 · Enter a valid email address and we’ll send a six-digit verification code.':verify?'Step 2 of 3 · Enter the six-digit code sent to your email. It expires in 10 minutes.':'Step 3 of 3 · Choose a password to finish creating your account.';
+  submit.textContent=login?'Sign in':emailStep?'Send verification code':verify?'Verify code':'Create account';
+  message.textContent='';message.classList.remove('success');
+}
+setMode('login');
+document.querySelectorAll('[data-mode]').forEach(button=>button.addEventListener('click',()=>{verifiedCode='';otpField.value='';setMode(button.dataset.mode==='login'?'login':'email')}));
+resend.addEventListener('click',async()=>{
+  const email=String(emailField.value||'').trim().toLowerCase();
+  if(mode!=='login'&&!emailField.checkValidity()){emailField.reportValidity();return}
+  resend.disabled=true;
+  try{
+    const response=await fetch('/api/auth/resend-verification',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({email}),credentials:'same-origin'});
+    const data=await response.json().catch(()=>({}));
+    if(!response.ok)throw new Error(data.message||'We could not resend the verification code. Check the address and try again.');
+    message.textContent='A new verification code has been sent. Check your inbox and spam folder.';message.classList.add('success');
+  }catch(error){message.textContent=error.message||'Email delivery failed. Please try again.'}
+  finally{resend.disabled=false}
+});
+form.addEventListener('submit',async event=>{
+  event.preventDefault();message.textContent='';message.classList.remove('success');
+  if(!emailField.checkValidity()){emailField.reportValidity();return}
+  submit.disabled=true;const email=String(emailField.value).trim().toLowerCase();
+  submit.textContent=mode==='login'?'Signing in…':mode==='email'?'Sending code…':mode==='verify'?'Checking code…':'Creating account…';
+  try{
+    if(mode==='email'){
+      const response=await fetch('/api/auth/register',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({email}),credentials:'same-origin'});
+      const data=await response.json().catch(()=>({}));if(!response.ok)throw new Error(data.detail||data.message||(response.status===503?'We could not send the code. Check the mail server settings and try again.':'Could not start account creation.'));
+      setMode('verify');message.textContent=data.status==='local_otp'?'Development code: '+data.developmentOtp:'Verification code sent to '+email+'. Check your inbox and spam folder.';message.classList.add('success');return;
+    }
+    if(mode==='verify'){
+      const otp=String(otpField.value).trim();if(!/^\d{6}$/.test(otp))throw new Error('Enter the six-digit code from your email.');
+      const response=await fetch('/api/auth/verify-otp',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({email,otp}),credentials:'same-origin'});
+      const data=await response.json().catch(()=>({}));if(!response.ok)throw new Error(data.detail||data.message||'That code is incorrect or expired. Request a new code and try again.');
+      verifiedCode=otp;setMode('password');message.textContent='Email verified. Now choose a password.';message.classList.add('success');return;
+    }
+    if(mode==='password'){
+      const password=String(passwordField.value);if(password.length<8||new TextEncoder().encode(password).length>72||!/[A-Z]/.test(password)||!/[a-z]/.test(password)||!/[0-9]/.test(password))throw new Error('Use at least 8 characters, including uppercase and lowercase letters and a number.');
+      const response=await fetch('/api/auth/complete-registration',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({email,otp:verifiedCode,password}),credentials:'same-origin'});
+      const data=await response.json().catch(()=>({}));if(!response.ok)throw new Error(data.detail||data.message||'We could not complete account creation. Verify the code again.');
+      const login=await fetch('/api/auth/login',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded','Accept':'application/json'},body:new URLSearchParams({username:email,password}),credentials:'same-origin'});
+      if(!login.ok)throw new Error('Your account was created. Sign in with your new password to continue.');
+      const state=JSON.parse(localStorage.getItem('himpathApp')||'{}');state.user={email,name:email.split('@')[0],role:'USER'};localStorage.setItem('himpathApp',JSON.stringify(state));sessionStorage.setItem('himpathUserSession','yes');const next=sessionStorage.getItem('himpathReturnAfterLogin');sessionStorage.removeItem('himpathReturnAfterLogin');location.replace(next&&next.startsWith('/')&&!next.startsWith('//')?next:'/');return;
+    }
+    const password=String(passwordField.value);
+    const response=await fetch('/api/auth/login',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded','Accept':'application/json'},body:new URLSearchParams({username:email,password}),credentials:'same-origin'});
+    if(!response.ok)throw new Error('Email or password is incorrect. If this is a new account, choose Create account to verify your email.');
+    const me=await fetch('/api/auth/me',{credentials:'same-origin'});if(!me.ok)throw new Error('Your sign-in session could not be confirmed.');
+    const profile=await me.json();if(profile.role==='ADMIN'){await fetch('/api/auth/logout',{method:'POST',credentials:'same-origin'});throw new Error('This is an admin account. Please use Admin login.');}
+    const state=JSON.parse(localStorage.getItem('himpathApp')||'{}');state.user={email:profile.username,name:profile.username.split('@')[0],role:profile.role};localStorage.setItem('himpathApp',JSON.stringify(state));sessionStorage.setItem('himpathUserSession','yes');const next=sessionStorage.getItem('himpathReturnAfterLogin');sessionStorage.removeItem('himpathReturnAfterLogin');location.replace(next&&next.startsWith('/')&&!next.startsWith('//')?next:'/');
+  }catch(error){message.textContent=error.message||'The request failed. Please try again.'}
+  finally{submit.disabled=false;submit.textContent=mode==='login'?'Sign in':mode==='email'?'Send verification code':mode==='verify'?'Verify code':'Create account'}
+});
+</script></body></html>
