@@ -1,0 +1,7 @@
+Him-Path stopped with exit code 1.
+At D:\Him-Path-Final\1010\tools\run-him-path.ps1:84 char:28
++ ... ODE -ne 0) { throw "Him-Path stopped with exit code $LASTEXITCODE." }
++                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : OperationStopped: (Him-Path stopped with exit code 1.:String) [], RuntimeException
+    + FullyQualifiedErrorId : Him-Path stopped with exit code 1.
+ 
